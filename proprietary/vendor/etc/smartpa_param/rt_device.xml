@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<config>
+	<conf check_path="/proc/rt5508_calib.0/calib_times"
+	      param_path="/sys/bus/platform/devices/rt5508_param.0/prop_param"
+	      param_file="/system/vendor/etc/smartpa_param/rt5508_param">
+			<ctl name="Speaker Protection" val="0"></ctl>
+	</conf>
+
+	<scenario name = "init">
+		<ctl name="I2SDOR Mux" val="4"></ctl>
+	</scenario>
+	<scenario name = "deinit" />
+	<scenario name="speaker_on_normal">
+		<ctl name="Ext_DO_Enable" val="1"></ctl>
+	</scenario>
+	<scenario name="speaker_on_phonecall">
+		<ctl name="RLR Func" val="1"></ctl>
+		<!-- gain per step 3db, starting from 0dB, maximum is 21dB -->
+		<ctl name="ALC Fixed Gain" val="7"></ctl>
+		<ctl name="Ext_DO_Enable" val="1"></ctl>
+	</scenario>
+	<scenario name="speaker_on_voip">
+		<ctl name="RLR Func" val="1"></ctl>
+		<!-- gain per step 3db, starting from 0dB, maximum is 21dB -->
+		<ctl name="ALC Fixed Gain" val="0"></ctl>
+		<ctl name="Ext_DO_Enable" val="1"></ctl>
+	</scenario>
+	<scenario name="receiver_on_phonecall" />
+	<scenario name="receiver_on_voip" />
+	<scenario name="amp_off">
+		<ctl name="RLR Func" val="0"></ctl>
+		<ctl name="Ext_DO_Enable" val="0"></ctl>
+	</scenario>
+</config>

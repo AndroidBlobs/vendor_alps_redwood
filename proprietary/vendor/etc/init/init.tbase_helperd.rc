@@ -1,0 +1,6 @@
+# Start tbase_helperd
+service tbase_helperd /vendor/bin/tbase_helperd
+    class late_start
+    user system
+    group system
+    oneshot

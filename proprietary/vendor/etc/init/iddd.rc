@@ -1,0 +1,32 @@
+#
+# Copyright (C) 2016 Sony Mobile Communications Inc.
+# All rights, including trade secret rights, reserved.
+#
+
+#
+# iddd.rc
+#
+on fs
+    # SONY: setup idd and rca partition
+    chown idd idd /idd
+    chmod 0751 /idd
+    symlink /idd /mnt/idd
+    chown idd idd /rca
+    chmod 0750 /rca
+    symlink /rca /mnt/rca
+
+on post-fs-data
+    mkdir idd/lost+found 0770 root root
+    mkdir idd/output 0755 idd idd
+    mkdir idd/socket 0711 idd idd
+    mkdir idd/private 0700 idd idd
+    mkdir idd/input 0755 idd idd
+    exec u:r:restorecon:s0 -- /vendor/bin/restorecon -RF /idd
+    mkdir rca/plugins 0750 idd idd
+    exec u:r:restorecon:s0 -- /vendor/bin/restorecon -RF /rca
+
+# Start idd native service
+service iddd /vendor/bin/iddd
+    class core
+    user idd
+    group idd log inet trimarea

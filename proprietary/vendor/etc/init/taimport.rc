@@ -1,0 +1,19 @@
+on post-fs-data
+# SONY: Start early TA-users
+    mkdir /data/etc 0755 root shell
+    exec u:r:taimport:s0 -- /vendor/bin/taimport
+
+# SONY: Import MiscTA to System properties
+    exec u:r:taimport:s0 -- /vendor/bin/taimport property
+
+on property:vold.decrypt=trigger_restart_framework
+    start taimport_platform
+
+# taimport ready, use this as trigger for multi-cdf-symlinker
+    setprop init.taimport.ready true
+
+service taimport_platform /vendor/bin/taimport platform
+    user root
+    oneshot
+    seclabel u:r:taimport:s0
+    disabled

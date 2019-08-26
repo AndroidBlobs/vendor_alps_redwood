@@ -1,0 +1,5 @@
+# Trim Area CCCI service
+service ta_ccci_service /system/vendor/bin/ta_ccci_service
+    user root
+    seclabel u:r:ta_ccci_service:s0
+    disabled
